@@ -1,0 +1,448 @@
+{% extends "layout.html" %}
+{% block body %}
+  <style>
+    .admin-container {
+      min-height: calc(100vh - 200px);
+      background: linear-gradient(135deg, #f5f7fa 0%, #f0f2f5 100%);
+      padding: 40px 20px;
+    }
+
+    .admin-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .admin-header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #212529;
+      margin-bottom: 10px;
+    }
+
+    .admin-header p {
+      font-size: 16px;
+      color: #6c757d;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: white;
+      border: 2px solid #e9ecef;
+      text-decoration: none;
+      color: #495057;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .nav-tab:hover {
+      border-color: #0085A1;
+      color: #0085A1;
+    }
+
+    .content-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .settings-grid {
+      display: grid;
+      gap: 30px;
+    }
+
+    .settings-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .settings-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #212529;
+      margin: 0 0 20px 0;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .setting-item {
+      padding: 16px 0;
+      border-bottom: 1px solid #e9ecef;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .setting-item:last-child {
+      border-bottom: none;
+    }
+
+    .setting-label {
+      flex: 1;
+    }
+
+    .setting-label h3 {
+      margin: 0 0 4px 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #212529;
+    }
+
+    .setting-label p {
+      margin: 0;
+      font-size: 12px;
+      color: #6c757d;
+    }
+
+    .setting-value {
+      padding: 8px 16px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #495057;
+      font-weight: 600;
+    }
+
+    .admin-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .admin-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .admin-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0085A1, #006585);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .admin-info {
+      flex: 1;
+    }
+
+    .admin-name {
+      font-weight: 600;
+      color: #212529;
+      font-size: 13px;
+    }
+
+    .admin-email {
+      font-size: 11px;
+      color: #6c757d;
+    }
+
+    .admin-badge {
+      padding: 4px 12px;
+      background: #dc3545;
+      color: white;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-primary {
+      padding: 12px 24px;
+      background: #0085A1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: #006585;
+    }
+
+    .btn-secondary {
+      padding: 12px 24px;
+      background: #e9ecef;
+      color: #212529;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #dee2e6;
+    }
+
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .stats-table tr {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e9ecef;
+      align-items: center;
+    }
+
+    .stats-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .stats-label {
+      font-weight: 600;
+      color: #212529;
+    }
+
+    .stats-value {
+      background: #f8f9fa;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      color: #0085A1;
+    }
+
+    @media (max-width: 768px) {
+      .admin-header h1 {
+        font-size: 24px;
+      }
+
+      .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .setting-value {
+        margin-top: 8px;
+        width: 100%;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+      }
+    }
+  </style>
+
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>⚙️ Admin Settings</h1>
+      <p>Manage admin permissions and platform settings</p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <a href="{{ url_for('admin_dashboard') }}" class="nav-tab">📊 Overview</a>
+      <a href="{{ url_for('admin_users') }}" class="nav-tab">👥 Users</a>
+      <a href="{{ url_for('admin_posts') }}" class="nav-tab">📝 Posts</a>
+      <a href="{{ url_for('admin_contacts') }}" class="nav-tab">💬 Contacts</a>
+      <a href="{{ url_for('admin_settings') }}" class="nav-tab" style="border-color: #0085A1; color: #0085A1;">⚙️ Settings</a>
+    </div>
+
+    <!-- Settings Content -->
+    <div class="content-container">
+      <div class="settings-grid">
+        <!-- Admin Permissions -->
+        <div class="settings-card">
+          <h2>👮 Admin Permissions</h2>
+          
+          <div class="setting-item">
+            <div class="setting-label">
+              <h3>✅ User Management</h3>
+              <p>View, ban, promote, and delete users</p>
+            </div>
+            <div class="setting-value">Enabled</div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <h3>📝 Content Moderation</h3>
+              <p>Review and delete inappropriate posts</p>
+            </div>
+            <div class="setting-value">Enabled</div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <h3>💬 Contact Management</h3>
+              <p>View and delete contact messages</p>
+            </div>
+            <div class="setting-value">Enabled</div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <h3>⚙️ Settings Access</h3>
+              <p>Access admin dashboard and settings</p>
+            </div>
+            <div class="setting-value">Enabled</div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <h3>⭐ Promote/Demote Users</h3>
+              <p>Grant or revoke admin privileges</p>
+            </div>
+            <div class="setting-value">Enabled</div>
+          </div>
+        </div>
+
+        <!-- Current Admins -->
+        <div class="settings-card">
+          <h2>👥 Current Administrators</h2>
+          
+          {% if admins %}
+            <div class="admin-list">
+              {% for admin in admins %}
+                <div class="admin-item">
+                  <div class="admin-avatar">{{ admin.username[0].upper() }}</div>
+                  <div class="admin-info">
+                    <div class="admin-name">{{ admin.username }}</div>
+                    <div class="admin-email">{{ admin.email }}</div>
+                  </div>
+                  <div class="admin-badge">ADMIN</div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div style="text-align: center; padding: 20px; color: #6c757d;">
+              No admins found
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Platform Statistics -->
+        <div class="settings-card">
+          <h2>📊 Platform Statistics</h2>
+          
+          <table class="stats-table">
+            <tr>
+              <td class="stats-label">👥 Total Users</td>
+              <td class="stats-value">{{ user.query.count() if user else 'N/A' }}</td>
+            </tr>
+            <tr>
+              <td class="stats-label">📝 Total Posts</td>
+              <td class="stats-value">{{ posts.query.count() if posts else 'N/A' }}</td>
+            </tr>
+            <tr>
+              <td class="stats-label">💬 Total Messages</td>
+              <td class="stats-value">{{ contacts.query.count() if contacts else 'N/A' }}</td>
+            </tr>
+            <tr>
+              <td class="stats-label">⭐ Admin Count</td>
+              <td class="stats-value">{{ admins|length }}</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Security Settings -->
+        <div class="settings-card">
+          <h2>🔒 Security Settings</h2>
+          
+          <div class="setting-item">
+            <div class="setting-label">
+              <h3>🔐 Admin Dashboard Protection</h3>
+              <p>All admin pages require login and admin privileges</p>
+            </div>
+            <div class="setting-value">Active</div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <h3>🛡️ User Data Protection</h3>
+              <p>Password hashing with PBKDF2-SHA256</p>
+            </div>
+            <div class="setting-value">Active</div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <h3>⚡ Session Management</h3>
+              <p>Session lifetime: 7 days</p>
+            </div>
+            <div class="setting-value">Configured</div>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <h3>📧 Email Verification</h3>
+              <p>Contact forms require valid email</p>
+            </div>
+            <div class="setting-value">Enabled</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="settings-card">
+          <h2>⚡ Quick Actions</h2>
+          
+          <div class="btn-group">
+            <button class="btn-primary" onclick="alert('View logs - Coming soon!')">
+              📋 View Logs
+            </button>
+            <button class="btn-primary" onclick="alert('Database backup - Coming soon!')">
+              💾 Backup Database
+            </button>
+            <button class="btn-secondary" onclick="alert('Email settings - Coming soon!')">
+              📧 Email Settings
+            </button>
+          </div>
+        </div>
+
+        <!-- Documentation -->
+        <div class="settings-card">
+          <h2>📚 Documentation</h2>
+          
+          <div style="padding: 16px; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="margin: 0 0 12px 0; color: #212529;">Admin Panel Features</h3>
+            <ul style="margin: 0; padding-left: 20px; color: #495057; line-height: 1.8;">
+              <li><strong>User Management:</strong> Track users, ban accounts, and promote to admin</li>
+              <li><strong>Content Moderation:</strong> Review and delete posts that violate policies</li>
+              <li><strong>Contact Messages:</strong> View and manage contact form submissions</li>
+              <li><strong>Analytics Dashboard:</strong> Real-time platform statistics and activity</li>
+              <li><strong>Admin Settings:</strong> Configure permissions and security settings</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back Button -->
+    <div style="text-align: center; margin-top: 40px; margin-bottom: 40px;">
+      <a href="{{ url_for('admin_dashboard') }}" style="display: inline-block; padding: 12px 30px; background: #e9ecef; color: #212529; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.background='#dee2e6'" onmouseout="this.style.background='#e9ecef'">
+        ← Back to Dashboard
+      </a>
+    </div>
+  </div>
+{% endblock %}

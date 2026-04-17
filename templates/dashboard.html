@@ -1,0 +1,329 @@
+{% extends "layout.html" %}
+{% block body %}
+  <style>
+    /* Dashboard Page Styling */
+    .dashboard-container {
+      min-height: calc(100vh - 200px);
+      background: linear-gradient(135deg, #f5f7fa 0%, #f0f2f5 100%);
+      padding: 40px 20px;
+    }
+    
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .dashboard-header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #212529;
+      margin-bottom: 10px;
+    }
+    
+    .dashboard-header .user-info {
+      font-size: 16px;
+      color: #6c757d;
+    }
+    
+    .dashboard-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .btn-primary, .btn-secondary {
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #0085A1, #006585);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #006585, #004d62);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 133, 161, 0.3);
+    }
+    
+    .btn-secondary {
+      background: #e9ecef;
+      color: #212529;
+    }
+    
+    .btn-secondary:hover {
+      background: #dee2e6;
+    }
+    
+    .alert {
+      max-width: 800px;
+      margin: 0 auto 30px;
+      padding: 16px 20px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .alert-danger {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .alert-info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    
+    .alert-warning {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeeba;
+    }
+    
+    .posts-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .posts-grid {
+      display: grid;
+      gap: 20px;
+    }
+    
+    .post-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+    
+    .post-card:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    .post-header {
+      margin-bottom: 16px;
+    }
+    
+    .post-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #212529;
+      margin: 0 0 8px 0;
+    }
+    
+    .post-slug {
+      font-size: 13px;
+      color: #6c757d;
+      font-style: italic;
+    }
+    
+    .post-meta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: #6c757d;
+    }
+    
+    .post-content-preview {
+      color: #495057;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      max-height: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .post-actions {
+      display: flex;
+      gap: 10px;
+      border-top: 1px solid #e9ecef;
+      padding-top: 16px;
+    }
+    
+    .link-btn {
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+      display: inline-block;
+    }
+    
+    .link-btn-edit {
+      background: #0085A1;
+      color: white;
+    }
+    
+    .link-btn-edit:hover {
+      background: #006585;
+    }
+    
+    .link-btn-delete {
+      background: #dc3545;
+      color: white;
+    }
+    
+    .link-btn-delete:hover {
+      background: #c82333;
+    }
+    
+    .link-btn-view {
+      background: #28a745;
+      color: white;
+    }
+    
+    .link-btn-view:hover {
+      background: #218838;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .empty-state-icon {
+      font-size: 48px;
+      color: #adb5bd;
+      margin-bottom: 20px;
+    }
+    
+    .empty-state h3 {
+      font-size: 20px;
+      color: #212529;
+      margin-bottom: 10px;
+    }
+    
+    .empty-state p {
+      color: #6c757d;
+      margin-bottom: 30px;
+    }
+    
+    @media (max-width: 768px) {
+      .dashboard-header h1 {
+        font-size: 24px;
+      }
+      
+      .post-card {
+        padding: 16px;
+      }
+      
+      .dashboard-actions {
+        flex-direction: column;
+      }
+      
+      .btn-primary, .btn-secondary {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+  
+  <div class="dashboard-container">
+    <div class="dashboard-header">
+      <h1>Welcome, {{ user.username }}! 👋</h1>
+      <p class="user-info">Manage your posts and content</p>
+    </div>
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            <span>✓</span>
+            <span>{{ message }}</span>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
+    <!-- Dashboard Actions -->
+    <div class="dashboard-actions">
+      <a href="{{ url_for('add_post') }}" class="btn-primary">
+        <i class="fas fa-plus"></i> Create New Post
+      </a>
+      <a href="{{ url_for('home') }}" class="btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+      <a href="{{ url_for('logout') }}" class="btn-secondary">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
+    
+    <!-- Posts Section -->
+    <div class="posts-container">
+      {% if posts %}
+        <div class="posts-grid">
+          {% for post in posts %}
+            <div class="post-card">
+              <div class="post-header">
+                <h3 class="post-title">{{ post.title }}</h3>
+                <p class="post-slug">Slug: <code>{{ post.slug }}</code></p>
+              </div>
+              
+              <div class="post-meta">
+                <span><i class="fas fa-calendar"></i> {{ post.date.strftime('%b %d, %Y') if post.date else 'No date' }}</span>
+                <span><i class="fas fa-user"></i> {{ post.author.username }}</span>
+              </div>
+              
+              <div class="post-content-preview">
+                {{ post.content[:150] }}{% if post.content|length > 150 %}...{% endif %}
+              </div>
+              
+              <div class="post-actions">
+                <a href="{{ url_for('post', post_slug=post.slug) }}" class="link-btn link-btn-view">
+                  <i class="fas fa-eye"></i> View
+                </a>
+                <a href="{{ url_for('edit_post', post_id=post.sno) }}" class="link-btn link-btn-edit">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+                <form method="POST" action="{{ url_for('delete_post', post_id=post.sno) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                  <button type="submit" class="link-btn link-btn-delete">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </form>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <div class="empty-state-icon">
+            <i class="fas fa-pen-fancy"></i>
+          </div>
+          <h3>No Posts Yet</h3>
+          <p>You haven't created any posts yet. Start writing and share your thoughts!</p>
+          <a href="{{ url_for('add_post') }}" class="btn-primary">Create Your First Post</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

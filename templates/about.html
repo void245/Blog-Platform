@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<!-- Hero Section -->
+<section style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%); color: white; padding: var(--spacing-20) var(--spacing-6);">
+    <div class="container" style="text-align: center;">
+        <h1 style="color: white; margin-bottom: var(--spacing-4); font-size: clamp(2rem, 5vw, 3.5rem);">About Wind Breaker</h1>
+        <p style="font-size: var(--font-size-xl); color: rgba(255,255,255,0.9);">Empowering developers through knowledge and community</p>
+    </div>
+</section>
+
+<!-- Main Content -->
+<main class="container section">
+    <!-- About Section -->
+    <div style="max-width: 900px; margin: 0 auto;">
+        <!-- Mission Statement -->
+        <div style="background: var(--color-bg-light); border-radius: var(--radius-xl); padding: var(--spacing-12); border-left: 4px solid var(--color-primary); margin-bottom: var(--spacing-16);">
+            <h2 style="margin-bottom: var(--spacing-4);">Our Mission</h2>
+            <p style="font-size: var(--font-size-lg); line-height: var(--line-height-relaxed); color: var(--color-text-secondary);">
+                Wind Breaker is dedicated to creating a modern, accessible platform for developers to share knowledge, 
+                insights, and stories. We believe in the power of community-driven learning and continuous growth in 
+                the tech industry.
+            </p>
+        </div>
+
+        <!-- Stats -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-6); margin-bottom: var(--spacing-16);">
+            <div style="text-align: center; padding: var(--spacing-8); background: var(--color-bg-light); border-radius: var(--radius-xl);">
+                <div style="font-size: 3rem; font-weight: bold; color: var(--color-primary); margin-bottom: var(--spacing-2);">2.5K+</div>
+                <p style="color: var(--color-text-secondary);">Active Readers</p>
+            </div>
+            <div style="text-align: center; padding: var(--spacing-8); background: var(--color-bg-light); border-radius: var(--radius-xl);">
+                <div style="font-size: 3rem; font-weight: bold; color: var(--color-primary); margin-bottom: var(--spacing-2);">500+</div>
+                <p style="color: var(--color-text-secondary);">Published Articles</p>
+            </div>
+            <div style="text-align: center; padding: var(--spacing-8); background: var(--color-bg-light); border-radius: var(--radius-xl);">
+                <div style="font-size: 3rem; font-weight: bold; color: var(--color-primary); margin-bottom: var(--spacing-2);">150+</div>
+                <p style="color: var(--color-text-secondary);">Contributors</p>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <h2 style="text-align: center; margin-bottom: var(--spacing-12);">Why Choose Wind Breaker?</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-8); margin-bottom: var(--spacing-16);">
+            <!-- Feature 1 -->
+            <div style="background: var(--color-bg-light); border-radius: var(--radius-xl); padding: var(--spacing-8); transition: all var(--transition-base); border: 1px solid var(--color-border);">
+                <div style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: var(--spacing-4); text-align: center;">
+                    <i class="fas fa-pen-fancy"></i>
+                </div>
+                <h3 style="text-align: center; margin-bottom: var(--spacing-2);">Easy Publishing</h3>
+                <p style="color: var(--color-text-secondary); text-align: center;">Beautiful, intuitive editor to share your thoughts and expertise with the world.</p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div style="background: var(--color-bg-light); border-radius: var(--radius-xl); padding: var(--spacing-8); transition: all var(--transition-base); border: 1px solid var(--color-border);">
+                <div style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: var(--spacing-4); text-align: center;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 style="text-align: center; margin-bottom: var(--spacing-2);">Community First</h3>
+                <p style="color: var(--color-text-secondary); text-align: center;">Connect with developers worldwide, share ideas, and grow together as a community.</p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div style="background: var(--color-bg-light); border-radius: var(--radius-xl); padding: var(--spacing-8); transition: all var(--transition-base); border: 1px solid var(--color-border);">
+                <div style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: var(--spacing-4); text-align: center;">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3 style="text-align: center; margin-bottom: var(--spacing-2);">Modern Platform</h3>
+                <p style="color: var(--color-text-secondary); text-align: center;">Fresh, clean interface designed for reading and writing without distractions.</p>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div style="background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-bg-lighter) 100%); border-radius: var(--radius-xl); padding: var(--spacing-12); text-align: center;">
+            <h2 style="margin-bottom: var(--spacing-8);">Our Team</h2>
+            <p style="color: var(--color-text-secondary); margin-bottom: var(--spacing-12); font-size: var(--font-size-lg);">
+                Wind Breaker is built by passionate developers who believe in open knowledge sharing and community growth.
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-8);">
+                <div style="background: var(--color-bg); border-radius: var(--radius-lg); padding: var(--spacing-6);">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); margin: 0 auto var(--spacing-4);"></div>
+                    <h4>Alex Chen</h4>
+                    <p style="font-size: var(--font-size-sm); color: var(--color-text-tertiary);">Co-Founder & CTO</p>
+                </div>
+
+                <div style="background: var(--color-bg); border-radius: var(--radius-lg); padding: var(--spacing-6);">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--color-accent), var(--color-primary)); margin: 0 auto var(--spacing-4);"></div>
+                    <h4>Maria Rodriguez</h4>
+                    <p style="font-size: var(--font-size-sm); color: var(--color-text-tertiary);">Co-Founder & Design Lead</p>
+                </div>
+
+                <div style="background: var(--color-bg); border-radius: var(--radius-lg); padding: var(--spacing-6);">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #667eea, var(--color-primary)); margin: 0 auto var(--spacing-4);"></div>
+                    <h4>Jordan Smith</h4>
+                    <p style="font-size: var(--font-size-sm); color: var(--color-text-tertiary);">Community Manager</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div style="text-align: center; margin-top: var(--spacing-16);">
+            <h2 style="margin-bottom: var(--spacing-6);">Ready to Share Your Knowledge?</h2>
+            <a href="{{ url_for('register') if not current_user.is_authenticated else url_for('add_post') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-pen"></i> Start Writing Now
+            </a>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,211 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<!-- Hero Section -->
+<section style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%); color: white; padding: var(--spacing-20) var(--spacing-6);">
+    <div class="container" style="text-align: center;">
+        <h1 style="color: white; margin-bottom: var(--spacing-4); font-size: clamp(2rem, 5vw, 3.5rem);">Get in Touch</h1>
+        <p style="font-size: var(--font-size-xl); color: rgba(255,255,255,0.9);">We'd love to hear from you. Send us a message!</p>
+    </div>
+</section>
+
+<!-- Main Content -->
+<main class="container section" style="max-width: 900px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-12); align-items: start;">
+        
+        <!-- Contact Form -->
+        <form method="POST" style="background: var(--color-bg); border-radius: var(--radius-xl); padding: var(--spacing-8); border: 1px solid var(--color-border); box-shadow: var(--shadow-md);">
+            
+            <!-- Name Field -->
+            <div class="form-group" style="animation: slideInLeft 0.6s ease-out 0.1s both;">
+                <input 
+                    type="text" 
+                    placeholder=" " 
+                    class="form-input" 
+                    id="name" 
+                    name="name" 
+                    required 
+                    style="width: 100%;"
+                />
+                <label class="form-label" for="name">
+                    <i class="fas fa-user" style="margin-right: var(--spacing-2);"></i>
+                    Your  Name
+                </label>
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group" style="animation: slideInLeft 0.6s ease-out 0.2s both;">
+                <input 
+                    type="email" 
+                    placeholder=" " 
+                    class="form-input" 
+                    id="email" 
+                    name="email" 
+                    required 
+                    style="width: 100%;"
+                />
+                <label class="form-label" for="email">
+                    <i class="fas fa-envelope" style="margin-right: var(--spacing-2);"></i>
+                    Email Address
+                </label>
+            </div>
+
+            <!-- Phone Field -->
+            <div class="form-group" style="animation: slideInLeft 0.6s ease-out 0.3s both;">
+                <input 
+                    type="tel" 
+                    placeholder=" " 
+                    class="form-input" 
+                    id="phone" 
+                    name="phone_num"
+                    style="width: 100%;"
+                />
+                <label class="form-label" for="phone">
+                    <i class="fas fa-phone" style="margin-right: var(--spacing-2);"></i>
+                    Phone Number
+                </label>
+            </div>
+
+            <!-- Message Field -->
+            <div class="form-group" style="animation: slideInLeft 0.6s ease-out 0.4s both;">
+                <textarea 
+                    placeholder=" " 
+                    class="form-textarea" 
+                    id="message" 
+                    name="mes" 
+                    required 
+                    style="width: 100%; min-height: 140px; font-family: inherit;"
+                ></textarea>
+                <label class="form-label" for="message" style="padding: var(--spacing-3) var(--spacing-4);">
+                    <i class="fas fa-message" style="margin-right: var(--spacing-2);"></i>
+                    Your Message
+                </label>
+            </div>
+
+            <!-- Success/Error Messages -->
+            <div id="successMessage" class="toast toast-success" style="display: none; animation: slideInDown 0.3s ease-out;">
+                <div class="toast-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="toast-content">
+                    <div class="toast-message">Thank you! We'll get back to you soon.</div>
+                </div>
+            </div>
+
+            <div id="errorMessage" class="toast toast-danger" style="display: none; animation: slideInDown 0.3s ease-out;">
+                <div class="toast-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="toast-content">
+                    <div class="toast-message">Please fill all fields correctly.</div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: var(--spacing-6); animation: slideInLeft 0.6s ease-out 0.5s both;">
+                <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+        </form>
+
+        <!-- Contact Info -->
+        <div style="animation: fadeInUp 0.6s ease-out;">
+            <h2 style="margin-bottom: var(--spacing-8);">Contact Information</h2>
+
+            <!-- Email -->
+            <div style="background: var(--color-bg-light); border-radius: var(--radius-lg); padding: var(--spacing-6); margin-bottom: var(--spacing-6); border-left: 4px solid var(--color-primary);">
+                <div style="display: flex; gap: var(--spacing-4);">
+                    <div style="font-size: 1.5rem; color: var(--color-primary);">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: var(--spacing-2);">Email</h4>
+                        <p style="color: var(--color-text-secondary);">
+                            <a href="mailto:hello@windbreaker.dev" style="color: var(--color-primary); text-decoration: none;">
+                                hello@windbreaker.dev
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone -->
+            <div style="background: var(--color-bg-light); border-radius: var(--radius-lg); padding: var(--spacing-6); margin-bottom: var(--spacing-6); border-left: 4px solid var(--color-accent);">
+                <div style="display: flex; gap: var(--spacing-4);">
+                    <div style="font-size: 1.5rem; color: var(--color-accent);">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: var(--spacing-2);">Phone</h4>
+                        <p style="color: var(--color-text-secondary);">
+                            <a href="tel:+1234567890" style="color: var(--color-primary); text-decoration: none;">
+                                +1 (234) 567-890
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location -->
+            <div style="background: var(--color-bg-light); border-radius: var(--radius-lg); padding: var(--spacing-6); margin-bottom: var(--spacing-6); border-left: 4px solid var(--color-success);">
+                <div style="display: flex; gap: var(--spacing-4);">
+                    <div style="font-size: 1.5rem; color: var(--color-success);">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: var(--spacing-2);">Location</h4>
+                        <p style="color: var(--color-text-secondary);">
+                            San Francisco, CA 94102<br/>
+                            United States
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media -->
+            <h4 style="margin-top: var(--spacing-8); margin-bottom: var(--spacing-4);">Follow Us</h4>
+            <div style="display: flex; gap: var(--spacing-3);">
+                <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-link" title="Discord"><i class="fab fa-discord"></i></a>
+            </div>
+
+            <!-- Response Time -->
+            <div style="background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-accent-light) 100%); border-radius: var(--radius-lg); padding: var(--spacing-6); margin-top: var(--spacing-8); text-align: center;">
+                <div style="font-size: 1.25rem; font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--spacing-2);">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <p style="color: #333;">We typically respond within 24 hours</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Contact Map Section -->
+<section style="background: var(--color-bg-light); padding: var(--spacing-16) 0; margin-top: var(--spacing-20);">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: var(--spacing-12);">Office Location</h2>
+        <div style="height: 400px; border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-md); background: #e0e0e0;">
+            <!-- Placeholder for map -->
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--color-text-tertiary);">
+                <div style="text-align: center;">
+                    <i class="fas fa-map" style="font-size: 3rem; margin-bottom: var(--spacing-4);"></i>
+                    <p>Map embedding feature coming soon</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Scripts -->
+<script>
+    const form = document.querySelector('form');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+
+    form.addEventListener('submit', (e) => {
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+    });
+</script>
+{% endblock %}

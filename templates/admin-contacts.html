@@ -1,0 +1,459 @@
+{% extends "layout.html" %}
+{% block body %}
+  <style>
+    .admin-container {
+      min-height: calc(100vh - 200px);
+      background: linear-gradient(135deg, #f5f7fa 0%, #f0f2f5 100%);
+      padding: 40px 20px;
+    }
+
+    .admin-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .admin-header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #212529;
+      margin-bottom: 10px;
+    }
+
+    .admin-header p {
+      font-size: 16px;
+      color: #6c757d;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: white;
+      border: 2px solid #e9ecef;
+      text-decoration: none;
+      color: #495057;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .nav-tab:hover {
+      border-color: #0085A1;
+      color: #0085A1;
+    }
+
+    .search-box {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #0085A1;
+      box-shadow: 0 0 0 3px rgba(0, 133, 161, 0.1);
+    }
+
+    .search-box button {
+      padding: 12px 24px;
+      background: #0085A1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .search-box button:hover {
+      background: #006585;
+    }
+
+    .content-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .contacts-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .contacts-table thead {
+      background: #f8f9fa;
+    }
+
+    .contacts-table th {
+      padding: 16px;
+      text-align: left;
+      font-weight: 700;
+      color: #212529;
+      border-bottom: 2px solid #e9ecef;
+      font-size: 14px;
+    }
+
+    .contacts-table td {
+      padding: 16px;
+      border-bottom: 1px solid #e9ecef;
+      font-size: 14px;
+      color: #495057;
+    }
+
+    .contacts-table tr:hover {
+      background: #f8f9fa;
+    }
+
+    .contact-name {
+      font-weight: 600;
+      color: #212529;
+    }
+
+    .contact-email {
+      font-size: 12px;
+      color: #6c757d;
+    }
+
+    .contact-message {
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .action-btn {
+      padding: 6px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-view {
+      background: #0085A1;
+      color: white;
+    }
+
+    .btn-view:hover {
+      background: #006585;
+    }
+
+    .btn-delete {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background: #c82333;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      color: #212529;
+    }
+
+    .modal-close {
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      color: #adb5bd;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      color: #212529;
+    }
+
+    .modal-body {
+      margin-bottom: 20px;
+    }
+
+    .modal-field {
+      margin-bottom: 16px;
+    }
+
+    .modal-field label {
+      display: block;
+      font-weight: 600;
+      color: #212529;
+      margin-bottom: 8px;
+    }
+
+    .modal-field value {
+      display: block;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      color: #495057;
+      word-break: break-word;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+      font-size: 20px;
+      color: #212529;
+      margin-bottom: 10px;
+    }
+
+    .empty-state p {
+      color: #6c757d;
+    }
+
+    @media (max-width: 768px) {
+      .admin-header h1 {
+        font-size: 24px;
+      }
+
+      .search-box {
+        flex-direction: column;
+      }
+
+      .contacts-table {
+        font-size: 12px;
+      }
+
+      .contacts-table th,
+      .contacts-table td {
+        padding: 12px;
+      }
+
+      .contact-message {
+        max-width: 150px;
+      }
+
+      .modal-content {
+        padding: 20px;
+      }
+    }
+  </style>
+
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>💬 Contact Messages</h1>
+      <p>Review and manage all contact form submissions</p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <a href="{{ url_for('admin_dashboard') }}" class="nav-tab">📊 Overview</a>
+      <a href="{{ url_for('admin_users') }}" class="nav-tab">👥 Users</a>
+      <a href="{{ url_for('admin_posts') }}" class="nav-tab">📝 Posts</a>
+      <a href="{{ url_for('admin_contacts') }}" class="nav-tab" style="border-color: #0085A1; color: #0085A1;">💬 Contacts</a>
+      <a href="{{ url_for('admin_settings') }}" class="nav-tab">⚙️ Settings</a>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          {% if category == 'success' %}
+            <div style="max-width: 1000px; margin: 0 auto 20px; padding: 12px 16px; border-radius: 8px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb;">
+              ✓ {{ message }}
+            </div>
+          {% elif category == 'danger' %}
+            <div style="max-width: 1000px; margin: 0 auto 20px; padding: 12px 16px; border-radius: 8px; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;">
+              ✓ {{ message }}
+            </div>
+          {% else %}
+            <div style="max-width: 1000px; margin: 0 auto 20px; padding: 12px 16px; border-radius: 8px; background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;">
+              ✓ {{ message }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Search Bar -->
+    <div class="search-box">
+      <form method="GET" style="display: flex; gap: 10px; width: 100%;">
+        <input type="text" name="search" placeholder="Search by name..." value="{{ search_query }}">
+        <button type="submit">🔍 Search</button>
+        {% if search_query %}
+          <a href="{{ url_for('admin_contacts') }}" style="display: inline-block; padding: 12px 24px; background: #e9ecef; color: #212529; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s ease;" onmouseover="this.style.background='#dee2e6'" onmouseout="this.style.background='#e9ecef'">Clear</a>
+        {% endif %}
+      </form>
+    </div>
+
+    <!-- Contacts Table -->
+    <div class="content-container">
+      {% if contacts %}
+        <table class="contacts-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Message</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for contact in contacts %}
+              <tr>
+                <td><span class="contact-name">{{ contact.name }}</span></td>
+                <td><span class="contact-email">{{ contact.email }}</span></td>
+                <td>
+                  <a href="tel:{{ contact.phone_num }}" style="color: #0085A1; text-decoration: none;">
+                    {{ contact.phone_num }}
+                  </a>
+                </td>
+                <td>
+                  <span class="contact-message" title="{{ contact.mes }}">{{ contact.mes[:50] }}{% if contact.mes|length > 50 %}...{% endif %}</span>
+                </td>
+                <td>{{ contact.date.strftime('%b %d, %Y') if contact.date else 'N/A' }}</td>
+                <td style="display: flex; gap: 8px;">
+                  <button type="button" class="action-btn btn-view" onclick="viewContactData(this);" 
+                    data-name="{{ contact.name }}" 
+                    data-email="{{ contact.email }}" 
+                    data-phone="{{ contact.phone_num }}" 
+                    data-message="{{ contact.mes }}" 
+                    data-date="{{ contact.date.strftime('%b %d, %Y at %H:%M') if contact.date else 'N/A' }}">
+                    👁️ View
+                  </button>
+                  <form method="POST" action="{{ url_for('delete_contact', contact_id=contact.ser) }}" style="display: inline;" onsubmit="return confirm('Delete this message?');">
+                    <button type="submit" class="action-btn btn-delete">🗑️ Delete</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="empty-state">
+          <div class="empty-state-icon">💬</div>
+          <h3>No Messages Found</h3>
+          <p>{% if search_query %}No messages match your search.{% else %}There are no contact messages yet.{% endif %}</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Back Button -->
+    <div style="text-align: center; margin-top: 40px;">
+      <a href="{{ url_for('admin_dashboard') }}" style="display: inline-block; padding: 12px 30px; background: #e9ecef; color: #212529; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.background='#dee2e6'" onmouseout="this.style.background='#e9ecef'">
+        ← Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- View Message Modal -->
+  <div id="messageModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <h2>📬 Contact Message</h2>
+      </div>
+      <div class="modal-body">
+        <div class="modal-field">
+          <label>Name:</label>
+          <value id="modalName"></value>
+        </div>
+        <div class="modal-field">
+          <label>Email:</label>
+          <value id="modalEmail" style="color: #0085A1;"></value>
+        </div>
+        <div class="modal-field">
+          <label>Phone:</label>
+          <value id="modalPhone"></value>
+        </div>
+        <div class="modal-field">
+          <label>Date:</label>
+          <value id="modalDate"></value>
+        </div>
+        <div class="modal-field">
+          <label>Message:</label>
+          <value id="modalMessage" style="white-space: pre-wrap; line-height: 1.6;"></value>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function viewContactData(button) {
+      const modal = document.getElementById('messageModal');
+      document.getElementById('modalName').textContent = button.dataset.name;
+      document.getElementById('modalEmail').textContent = button.dataset.email;
+      document.getElementById('modalPhone').textContent = button.dataset.phone;
+      document.getElementById('modalDate').textContent = button.dataset.date;
+      document.getElementById('modalMessage').textContent = button.dataset.message;
+      modal.classList.add('show');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('messageModal');
+      modal.classList.remove('show');
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('messageModal');
+      if (event.target == modal) {
+        modal.classList.remove('show');
+      }
+    }
+  </script>
+{% endblock %}

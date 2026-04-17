@@ -1,0 +1,171 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to <span style="color: var(--color-accent);">Wind Breaker</span></h1>
+        <p>Discover cutting-edge insights, technical tutorials, and coding stories from passionate developers around the world</p>
+        
+        <div class="hero-actions">
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-pen-fancy"></i> Get Started
+                </a>
+            {% else %}
+                <a href="{{ url_for('add_post') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus"></i> Write a Post
+                </a>
+            {% endif %}
+            
+            <a href="#posts" class="btn btn-ghost btn-lg">
+                <i class="fas fa-arrow-down"></i> Explore Posts
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Blog Posts Section -->
+<main id="posts" class="container section">
+    {% if posts %}
+        <!-- Section Header -->
+        <div class="section-header">
+            <h2 class="section-title">Latest Articles</h2>
+            <p class="section-subtitle">Fresh content from our community of writers</p>
+        </div>
+
+        <!-- Blog Grid -->
+        <div class="blog-grid">
+            {% for post in posts %}
+                <article class="blog-card animate-stagger-{{ loop.index % 5 + 1 }}">
+                    {% if post.img_file %}
+                        <a href="{{ url_for('post', post_slug=post.slug) }}" class="blog-card-image-wrapper" style="overflow: hidden; display: block;">
+                            <img src="{{ post.img_file }}" alt="{{ post.title }}" class="blog-card-image" loading="lazy" />
+                        </a>
+                    {% endif %}
+                    
+                    <div class="blog-card-content">
+                        {% if post.category %}
+                            <span class="blog-card-tag">{{ post.category }}</span>
+                        {% else %}
+                            <span class="blog-card-tag">General</span>
+                        {% endif %}
+                        
+                        <a href="{{ url_for('post', post_slug=post.slug) }}" style="text-decoration: none;">
+                            <h3 class="blog-card-title">{{ post.title }}</h3>
+                        </a>
+                        
+                        {% if post.tagline %}
+                            <p class="blog-card-description">{{ post.tagline }}</p>
+                        {% endif %}
+                        
+                        <div class="blog-card-meta">
+                            <div class="blog-card-author">
+                                <div class="blog-card-avatar" style="background: linear-gradient(135deg, var(--color-primary), var(--color-accent));"></div>
+                                <span>{{ post.author or 'Anonymous' }}</span>
+                            </div>
+                            <div class="blog-card-read-time">
+                                <i class="fas fa-clock"></i>
+                                <span>{{ (post.content|length / 200)|int }} min</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 0 var(--spacing-6) var(--spacing-6);">
+                        <a href="{{ url_for('post', post_slug=post.slug) }}" style="color: var(--color-primary); font-weight: var(--font-weight-semibold); text-decoration: none; display: inline-flex; align-items: center; gap: var(--spacing-2); transition: all var(--transition-fast);">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+
+        <!-- Load More / Pagination -->
+        <div style="display: flex; justify-content: center; margin-top: var(--spacing-16);">
+            <button class="btn btn-secondary" onclick="loadMorePosts()">
+                <i class="fas fa-refresh"></i> Load More Articles
+            </button>
+        </div>
+
+    {% else %}
+        <!-- Empty State -->
+        <div class="empty-state">
+            <div class="empty-state-icon">
+                <i class="fas fa-feather"></i>
+            </div>
+            <h2 class="empty-state-title">No Posts Yet</h2>
+            <p class="empty-state-description">The blog is just getting started. Check back soon for amazing content!</p>
+            
+            {% if current_user.is_authenticated and current_user.is_admin() %}
+                <a href="{{ url_for('add_post') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Create First Post
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</main>
+
+<!-- CTA Section -->
+{% if current_user.is_authenticated %}
+    <section style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%); color: white; padding: var(--spacing-20) var(--spacing-6); text-align: center; margin-top: var(--spacing-20);">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: var(--spacing-4);">Share Your Knowledge</h2>
+            <p style="color: rgba(255,255,255,0.9); margin-bottom: var(--spacing-8); font-size: var(--font-size-lg);">Have an interesting story or tutorial to share?</p>
+            <a href="{{ url_for('add_post') }}" class="btn" style="background: white; color: var(--color-primary);">
+                <i class="fas fa-pen"></i> Write Now
+            </a>
+        </div>
+    </section>
+{% else %}
+    <section style="background: var(--color-bg-light); padding: var(--spacing-20) var(--spacing-6); text-align: center; margin-top: var(--spacing-20);">
+        <div class="container">
+            <h2 style="margin-bottom: var(--spacing-4);">Join Our Community</h2>
+            <p style="margin-bottom: var(--spacing-8); font-size: var(--font-size-lg);">Sign up to write articles, engage with other developers, and share your expertise.</p>
+            <div style="display: flex; gap: var(--spacing-4); justify-content: center; flex-wrap: wrap;">
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-plus"></i> Sign Up Free
+                </a>
+                <a href="{{ url_for('login') }}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-sign-in-alt"></i> Already a member?
+                </a>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+<!-- Scripts -->
+<script>
+function loadMorePosts() {
+    const btn = event.target;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    btn.disabled = true;
+    
+    // Implement AJAX loading here
+    setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-refresh"></i> Load More Articles';
+        btn.disabled = false;
+    }, 2000);
+}
+
+// Animate cards on scroll
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.blog-card');
+    
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s both`;
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    cards.forEach(card => observer.observe(card));
+});
+</script>
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<!-- Hero Section -->
+<section style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%); color: white; padding: var(--spacing-20) var(--spacing-6);">
+    <div class="container" style="text-align: center;">
+        <h1 style="color: white; margin-bottom: var(--spacing-4); font-size: clamp(2rem, 5vw, 3.5rem);">Write a New Post</h1>
+        <p style="font-size: var(--font-size-xl); color: rgba(255,255,255,0.9);">Share your knowledge and ideas with the community</p>
+    </div>
+</section>
+
+<!-- Main Content -->
+<main class="container section" style="max-width: 900px;">
+    <div style="background: var(--color-bg); border-radius: var(--radius-2xl); padding: var(--spacing-12); border: 1px solid var(--color-border); box-shadow: var(--shadow-md);">
+        
+        <p style="color: var(--color-text-secondary); font-size: var(--font-size-lg); margin-bottom: var(--spacing-8);">Fill in the details below to create your blog post. Make it engaging and informative!</p>
+
+        <!-- Add Post Form -->
+        <form action="{{ url_for('add_post') }}" method="POST">
+            
+            <!-- Post Title -->
+            <div class="form-group" style="animation: slideInLeft 0.6s ease-out 0.1s both;">
+                <input 
+                    type="text" 
+                    placeholder=" " 
+                    class="form-input" 
+                    id="title" 
+                    name="title" 
+                    required 
+                    style="width: 100%;"
+                />
+                <label class="form-label" for="title">
+                    <i class="fas fa-heading" style="margin-right: var(--spacing-2);"></i>
+                    Post Title
+                </label>
+            </div>
+
+            <!-- Post Slug -->
+            <div class="form-group" style="animation: slideInLeft 0.6s ease-out 0.2s both;">
+                <input 
+                    type="text" 
+                    placeholder=" " 
+                    class="form-input" 
+                    id="slug" 
+                    name="slug" 
+                    required 
+                    style="width: 100%;"
+                />
+                <label class="form-label" for="slug">
+                    <i class="fas fa-link" style="margin-right: var(--spacing-2);"></i>
+                    Post Slug (URL-friendly, e.g., my-first-post)
+                </label>
+                <small style="color: var(--color-text-tertiary); font-size: var(--font-size-xs); display: block; margin-top: var(--spacing-2);">
+                    Use lowercase letters, numbers, and hyphens only
+                </small>
+            </div>
+
+            <!-- Post Tagline -->
+            <div class="form-group" style="animation: slideInLeft 0.6s ease-out 0.3s both;">
+                <input 
+                    type="text" 
+                    placeholder=" " 
+                    class="form-input" 
+                    id="tagline" 
+                    name="tagline"
+                    style="width: 100%;"
+                />
+                <label class="form-label" for="tagline">
+                    <i class="fas fa-quote-left" style="margin-right: var(--spacing-2);"></i>
+                    Post Tagline (Optional)
+                </label>
+                <small style="color: var(--color-text-tertiary); font-size: var(--font-size-xs); display: block; margin-top: var(--spacing-2);">
+                    A brief subtitle or summary (appears below the title)
+                </small>
+            </div>
+
+            <!-- Featured Image -->
+            <div class="form-group" style="animation: slideInLeft 0.6s ease-out 0.4s both;">
+                <input 
+                    type="url" 
+                    placeholder=" " 
+                    class="form-input" 
+                    id="img_file" 
+                    name="img_file"
+                    style="width: 100%;"
+                />
+                <label class="form-label" for="img_file">
+                    <i class="fas fa-image" style="margin-right: var(--spacing-2);"></i>
+                    Featured Image URL
+                </label>
+                <small style="color: var(--color-text-tertiary); font-size: var(--font-size-xs); display: block; margin-top: var(--spacing-2);">
+                    Example: https://example.com/image.jpg or static/img/post.jpg
+                </small>
+            </div>
+
+            <!-- Post Content -->
+            <div class="form-group" style="animation: slideInLeft 0.6s ease-out 0.5s both;">
+                <textarea 
+                    placeholder=" " 
+                    class="form-textarea" 
+                    id="content" 
+                    name="content" 
+                    required
+                    style="width: 100%; min-height: 300px; font-family: inherit;"
+                ></textarea>
+                <label class="form-label" for="content" style="padding: var(--spacing-3) var(--spacing-4);">
+                    <i class="fas fa-pen" style="margin-right: var(--spacing-2);"></i>
+                    Post Content
+                </label>
+                <small style="color: var(--color-text-tertiary); font-size: var(--font-size-xs); display: block; margin-top: var(--spacing-2);">
+                    Write your main content here. Support for markdown will be added soon!
+                </small>
+            </div>
+
+            <!-- Form Actions -->
+            <div style="display: flex; gap: var(--spacing-4); margin-top: var(--spacing-8); animation: slideInLeft 0.6s ease-out 0.6s both;">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-paper-plane"></i> Publish Post
+                </button>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </form>
+
+        <!-- Help Section -->
+        <div style="background: var(--color-bg-light); border-radius: var(--radius-lg); padding: var(--spacing-6); margin-top: var(--spacing-12); border-left: 4px solid var(--color-primary);">
+            <h3 style="margin-bottom: var(--spacing-4);">💡 Writing Tips</h3>
+            <ul style="list-style: none; color: var(--color-text-secondary);">
+                <li style="margin-bottom: var(--spacing-2);"><i class="fas fa-check" style="color: var(--color-primary); margin-right: var(--spacing-2);"></i>Write a catchy title that describes your post</li>
+                <li style="margin-bottom: var(--spacing-2);"><i class="fas fa-check" style="color: var(--color-primary); margin-right: var(--spacing-2);"></i>Use URL-friendly slugs with hyphens (no spaces)</li>
+                <li style="margin-bottom: var(--spacing-2);"><i class="fas fa-check" style="color: var(--color-primary); margin-right: var(--spacing-2);"></i>Add a tagline to grab reader's attention</li>
+                <li style="margin-bottom: var(--spacing-2);"><i class="fas fa-check" style="color: var(--color-primary); margin-right: var(--spacing-2);"></i>Include a featured image for better engagement</li>
+                <li><i class="fas fa-check" style="color: var(--color-primary); margin-right: var(--spacing-2);"></i>Write clear, engaging content for your audience</li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Auto-generate slug from title
+    const titleInput = document.getElementById('title');
+    const slugInput = document.getElementById('slug');
+
+    titleInput.addEventListener('blur', function() {
+        if (!slugInput.value) {
+            slugInput.value = this.value
+                .toLowerCase()
+                .trim()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/[\s_]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            
+            // Trigger focus state
+            slugInput.focus();
+            slugInput.blur();
+        }
+    });
+
+    // Character count for content
+    const contentInput = document.getElementById('content');
+    contentInput.addEventListener('input', function() {
+        const charCount = this.value.length;
+        const wordCount = this.value.trim().split(/\s+/).filter(word => word.length > 0).length;
+        
+        // Could display this info to user if desired
+        console.log(`Characters: ${charCount}, Words: ${wordCount}`);
+    });
+
+    // Form submission feedback
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publishing...';
+        submitBtn.disabled = true;
+    });
+</script>
+{% endblock %}

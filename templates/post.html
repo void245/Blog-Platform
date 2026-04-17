@@ -1,0 +1,164 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{% if post %}
+    <!-- Article Header -->
+    <article style="max-width: 900px; margin: 0 auto;">
+        <header style="padding: var(--spacing-20) var(--spacing-6); text-align: center; background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-bg-lighter) 100%);">
+            <div class="container">
+                {% if post.category %}
+                    <span style="display: inline-block; background: var(--color-primary-light); color: var(--color-primary); padding: var(--spacing-2) var(--spacing-4); border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); margin-bottom: var(--spacing-4);">
+                        {{ post.category }}
+                    </span>
+                {% endif %}
+                
+                <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: var(--spacing-6);">{{ post.title }}</h1>
+                
+                {% if post.tagline %}
+                    <p style="font-size: var(--font-size-xl); color: var(--color-text-secondary); margin-bottom: var(--spacing-8);">{{ post.tagline }}</p>
+                {% endif %}
+                
+                <!-- Article Meta -->
+                <div style="display: flex; justify-content: center; align-items: center; gap: var(--spacing-6); flex-wrap: wrap; color: var(--color-text-secondary); font-size: var(--font-size-sm);">
+                    <div style="display: flex; align-items: center; gap: var(--spacing-2);">
+                        <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-accent));"></div>
+                        <div style="text-align: left;">
+                            <div style="font-weight: var(--font-weight-semibold); color: var(--color-text);">{{ post.author or 'Anonymous' }}</div>
+                        </div>
+                    </div>
+                    
+                    <span>•</span>
+                    
+                    <div style="display: flex; align-items: center; gap: var(--spacing-2);">
+                        <i class="fas fa-calendar"></i>
+                        <time>{{ post.date.strftime('%B %d, %Y') if post.date else 'N/A' }}</time>
+                    </div>
+                    
+                    <span>•</span>
+                    
+                    <div style="display: flex; align-items: center; gap: var(--spacing-2);">
+                        <i class="fas fa-clock"></i>
+                        <span>{{ (post.content|length / 200)|int }} min read</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Featured Image -->
+        {% if post.img_file %}
+            <figure style="margin: 0 0 var(--spacing-12) 0;">
+                <img src="{{ post.img_file }}" alt="{{ post.title }}" style="width: 100%; height: auto; object-fit: cover; max-height: 500px;" loading="lazy" />
+            </figure>
+        {% endif %}
+
+        <!-- Article Content -->
+        <main class="container" style="padding: var(--spacing-12) var(--spacing-6);">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="font-size: var(--font-size-lg); line-height: var(--line-height-relaxed); color: var(--color-text);">
+                    {{ post.content }}
+                </div>
+
+                <!-- Article Footer -->
+                <footer style="border-top: 2px solid var(--color-border); border-bottom: 2px solid var(--color-border); padding: var(--spacing-8) 0; margin: var(--spacing-16) 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-4);">
+                        <div>
+                            <div style="font-size: var(--font-size-sm); color: var(--color-text-tertiary); margin-bottom: var(--spacing-2);">Last Updated</div>
+                            <time style="font-weight: var(--font-weight-semibold);">{{ post.date.strftime('%B %d, %Y') if post.date else 'N/A' }}</time>
+                        </div>
+                        
+                        <div style="display: flex; gap: var(--spacing-2);">
+                            <button class="btn btn-secondary btn-sm" onclick="sharePost('facebook')">
+                                <i class="fab fa-facebook"></i> Share
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="sharePost('twitter')">
+                                <i class="fab fa-twitter"></i> Tweet
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="copyLink()">
+                                <i class="fas fa-link"></i> Copy Link
+                            </button>
+                        </div>
+                    </div>
+                </footer>
+
+                <!-- Author Bio -->
+                <div style="background: var(--color-bg-light); border-radius: var(--radius-xl); padding: var(--spacing-8); margin: var(--spacing-16) 0; display: flex; gap: var(--spacing-6); align-items: center;">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); flex-shrink: 0;"></div>
+                    <div>
+                        <h3 style="margin-bottom: var(--spacing-2);">About the Author</h3>
+                        <p style="color: var(--color-text-secondary);">{{ post.author or 'Anonymous' }} is a passionate developer and writer sharing insights on coding and technology.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </article>
+
+    <!-- Related Articles Section -->
+    <section style="background: var(--color-bg-light); padding: var(--spacing-20) 0; margin-top: var(--spacing-20);">
+        <div class="container">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h2 style="margin-bottom: var(--spacing-12); text-align: center;">You Might Also Like</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-8);">
+                    <!-- Placeholder for related posts -->
+                    <div style="background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--spacing-6); text-align: center; animation: pulse infinite; animation-duration: 2s;">
+                        <div style="background: var(--color-bg-lighter); height: 150px; border-radius: var(--radius-lg); margin-bottom: var(--spacing-4);"></div>
+                        <div style="height: 20px; background: var(--color-bg-lighter); border-radius: var(--radius-md); margin-bottom: var(--spacing-2);"></div>
+                        <div style="height: 15px; background: var(--color-bg-lighter); border-radius: var(--radius-md);"></div>
+                    </div>
+                    
+                    <div style="background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--spacing-6); text-align: center; animation: pulse infinite; animation-duration: 2s; animation-delay: 0.1s;">
+                        <div style="background: var(--color-bg-lighter); height: 150px; border-radius: var(--radius-lg); margin-bottom: var(--spacing-4);"></div>
+                        <div style="height: 20px; background: var(--color-bg-lighter); border-radius: var(--radius-md); margin-bottom: var(--spacing-2);"></div>
+                        <div style="height: 15px; background: var(--color-bg-lighter); border-radius: var(--radius-md);"></div>
+                    </div>
+                    
+                    <div style="background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--spacing-6); text-align: center; animation: pulse infinite; animation-duration: 2s; animation-delay: 0.2s;">
+                        <div style="background: var(--color-bg-lighter); height: 150px; border-radius: var(--radius-lg); margin-bottom: var(--spacing-4);"></div>
+                        <div style="height: 20px; background: var(--color-bg-lighter); border-radius: var(--radius-md); margin-bottom: var(--spacing-2);"></div>
+                        <div style="height: 15px; background: var(--color-bg-lighter); border-radius: var(--radius-md);"></div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: var(--spacing-12);">
+                    <a href="{{ url_for('home') }}" class="btn btn-primary">
+                        <i class="fas fa-arrow-left"></i> Back to All Articles
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script>
+        function sharePost(platform) {
+            const title = '{{ post.title }}';
+            const url = window.location.href;
+            
+            if (platform === 'twitter') {
+                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`);
+            } else if (platform === 'facebook') {
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
+            }
+        }
+        
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Link copied to clipboard!');
+            });
+        }
+    </script>
+
+{% else %}
+    <!-- 404 Error Page -->
+    <div class="empty-state" style="padding: var(--spacing-24) var(--spacing-6);">
+        <div class="empty-state-icon">
+            <i class="fas fa-search"></i>
+        </div>
+        <h1 class="empty-state-title">Article Not Found</h1>
+        <p class="empty-state-description">The article you're looking for doesn't exist or has been removed.</p>
+        <a href="{{ url_for('home') }}" class="btn btn-primary" style="margin-top: var(--spacing-6);">
+            <i class="fas fa-home"></i> Back to Home
+        </a>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{
+    "params":
+    {
+      "local_server":"True",
+      "local_url":"mysql+pymysql://root:@localhost/blog_platform",
+      "prod_url":"mysql+pymysql://root:@localhost/blog_platform",
+      "gmail_user":"YOUR_GMAIL_USER",
+      "gmail_password":"yOUR_GMAIL_PASSWORD",
+      "no_of_posts": 5
+    }
+}

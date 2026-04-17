@@ -1,0 +1,320 @@
+{% extends "layout.html" %}
+{% block body %}
+  <style>
+    .admin-container {
+      min-height: calc(100vh - 200px);
+      background: linear-gradient(135deg, #f5f7fa 0%, #f0f2f5 100%);
+      padding: 40px 20px;
+    }
+
+    .admin-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .admin-header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #212529;
+      margin-bottom: 10px;
+    }
+
+    .admin-header p {
+      font-size: 16px;
+      color: #6c757d;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: white;
+      border: 2px solid #e9ecef;
+      text-decoration: none;
+      color: #495057;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .nav-tab:hover {
+      border-color: #0085A1;
+      color: #0085A1;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .kpi-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .kpi-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .kpi-icon.users {
+      color: #0085A1;
+    }
+
+    .kpi-icon.posts {
+      color: #28a745;
+    }
+
+    .kpi-icon.contacts {
+      color: #ffc107;
+    }
+
+    .kpi-icon.admins {
+      color: #dc3545;
+    }
+
+    .kpi-icon.active {
+      color: #17a2b8;
+    }
+
+    .kpi-label {
+      font-size: 14px;
+      color: #6c757d;
+      margin-bottom: 8px;
+    }
+
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #212529;
+    }
+
+    .activity-section {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .activity-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #212529;
+      margin-bottom: 20px;
+    }
+
+    .activity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .activity-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .activity-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #212529;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .activity-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #e9ecef;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #212529;
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .activity-meta {
+      font-size: 12px;
+      color: #6c757d;
+    }
+
+    .empty-activity {
+      text-align: center;
+      color: #6c757d;
+      padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .admin-header h1 {
+        font-size: 24px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+
+      .activity-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-tabs {
+        flex-direction: column;
+      }
+
+      .nav-tab {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>🚀 Admin Dashboard</h1>
+      <p>Welcome back, {{ current_user.username }}! Platform Control Center</p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <a href="{{ url_for('admin_dashboard') }}" class="nav-tab">📊 Overview</a>
+      <a href="{{ url_for('admin_users') }}" class="nav-tab">👥 Users</a>
+      <a href="{{ url_for('admin_posts') }}" class="nav-tab">📝 Posts</a>
+      <a href="{{ url_for('admin_contacts') }}" class="nav-tab">💬 Contacts</a>
+      <a href="{{ url_for('admin_settings') }}" class="nav-tab">⚙️ Settings</a>
+    </div>
+
+    <!-- KPI Stats -->
+    <div class="stats-grid">
+      <div class="kpi-card">
+        <div class="kpi-icon users">👥</div>
+        <div class="kpi-label">Total Users</div>
+        <div class="kpi-value">{{ stats.total_users }}</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon active">✅</div>
+        <div class="kpi-label">Active Users</div>
+        <div class="kpi-value">{{ stats.active_users }}</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon admins">⭐</div>
+        <div class="kpi-label">Admin Count</div>
+        <div class="kpi-value">{{ stats.admin_count }}</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon posts">📝</div>
+        <div class="kpi-label">Total Posts</div>
+        <div class="kpi-value">{{ stats.total_posts }}</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon contacts">💬</div>
+        <div class="kpi-label">Messages</div>
+        <div class="kpi-value">{{ stats.total_contacts }}</div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="activity-section">
+      <h2>📊 Recent Activity</h2>
+      <div class="activity-grid">
+        <!-- Recent Posts -->
+        <div class="activity-card">
+          <h3>📝 Latest Posts</h3>
+          {% if recent_posts %}
+            {% for post in recent_posts %}
+              <div class="activity-item">
+                <div>
+                  <div class="activity-title">{{ post.title }}</div>
+                  <div class="activity-meta">by {{ post.author.username }} • {{ post.date.strftime('%b %d') if post.date else 'N/A' }}</div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="empty-activity">No posts yet</div>
+          {% endif %}
+        </div>
+
+        <!-- Recent Users -->
+        <div class="activity-card">
+          <h3>👥 New Users</h3>
+          {% if recent_users %}
+            {% for user in recent_users %}
+              <div class="activity-item">
+                <div>
+                  <div class="activity-title">{{ user.username }}</div>
+                  <div class="activity-meta">{{ user.email }} • {{ user.created_at.strftime('%b %d') if user.created_at else 'N/A' }}</div>
+                </div>
+                {% if user.role == 'admin' %}
+                  <span style="font-size: 12px; color: #dc3545; font-weight: 600;">{{ user.role.upper() }}</span>
+                {% else %}
+                  <span style="font-size: 12px; color: #6c757d;">{{ user.role.upper() }}</span>
+                {% endif %}
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="empty-activity">No users yet</div>
+          {% endif %}
+        </div>
+
+        <!-- Recent Contacts -->
+        <div class="activity-card">
+          <h3>💬 Contact Messages</h3>
+          {% if recent_contacts %}
+            {% for contact in recent_contacts %}
+              <div class="activity-item">
+                <div>
+                  <div class="activity-title">{{ contact.name }}</div>
+                  <div class="activity-meta">{{ contact.email }} • {{ contact.date.strftime('%b %d') if contact.date else 'N/A' }}</div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="empty-activity">No messages yet</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="activity-section" style="text-align: center; margin-top: 40px;">
+      <a href="{{ url_for('home') }}" style="display: inline-block; margin-top: 20px; padding: 12px 30px; background: #e9ecef; color: #212529; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.background='#dee2e6'" onmouseout="this.style.background='#e9ecef'">
+        ← Back to Home
+      </a>
+    </div>
+  </div>
+{% endblock %}
